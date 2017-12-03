@@ -11,9 +11,15 @@ import Foundation
 struct Element {
     let key: String
     let value: Any?
-    private let type: JsonDataType
+    public let type: JsonDataType
     let isExpandable: Bool
     
+    
+    /// init from dict element
+    ///
+    /// - Parameters:
+    ///   - key: <#key description#>
+    ///   - value: <#value description#>
     init(key: String, value: Any?) {
         self.key = key
         self.value = value
@@ -28,12 +34,10 @@ struct Element {
     
     func getModel() -> String! {
         switch type {
-        case .array, .object:
+        case .array, .object, .null:
             return type.name
         case .string:
             return value as! String
-        case .null:
-            return JsonDataType.null.name
         default:
             if value is Int {
                 return String(value as! Int)
@@ -47,6 +51,17 @@ struct Element {
             if value is Double {
                 return String(value as! Double)
             }
+            return nil
+        }
+    }
+    
+    func toItem() -> Item! {
+        switch self.type {
+        case .array:
+            return Item(json: self.value as! Array<Any>)
+        case .object:
+            return Item(json: self.value as! Dictionary<String, Any>)
+        default:
             return nil
         }
     }

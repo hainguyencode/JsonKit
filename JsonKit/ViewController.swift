@@ -40,32 +40,49 @@ class ViewController: NSViewController {
         guard let firstItem = txtViewRawData.string.toItem() else {
             return
         }
-        print("firt item : \(firstItem.string)")
-        currentItem = firstItem
-        currentElement =  currentItem?.elementList[0]
+        prepareItemAndElement(item: firstItem)
         outlineViewStructureData.reloadData()
         // send display structure data to observer TODO: need update observe pattern first
-        
     }
-    
-    
 }
 
 
 // MARK: - <#NSOutlineViewDataSource#>
 extension ViewController: NSOutlineViewDataSource {
     func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
-        let cout = (currentItem == nil) ? 0 : (currentItem!.childCout)
-        print("cout : \(cout)")
-        return cout
+        print("child cout of \(item.debugDescription): \(String(describing: currentItem?.childCout))")
+        if item is Element {
+            let element = item as! Element
+            if element.type == .object {
+                if element.value is Dictionary<String, Any> {
+                    prepareItemAndElement(item: (element.value as! Dictionary<String, Any>).toItem())
+                }
+            }
+            if element.type == .array {
+                if element.value is Array<Any> {
+                    prepareItemAndElement(item: (element.value as! Array<Any>).toItem())
+                }
+            }
+        }
+        return (currentItem == nil) ? 0 : (currentItem!.childCout)
     }
     
     func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
-        return (currentItem == nil) ? Element(key: String(), value: nil) : currentItem!.elementList[index]
+        print("view for item: \(currentItem.debugDescription) with index: \(index)")
+        if currentItem == nil {
+            return Element(key: String(), value: nil)
+        }
+        if currentItem!.elementList.count <= index {
+            return Element(key: String(), value: nil)
+        }
+        return currentItem!.elementList[index]
     }
     
     func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
-        return (currentElement == nil) ? false : currentElement!.isExpandable
+        if (item is Element) {
+            return (item as! Element).isExpandable
+        }
+        return false
     }
 }
 
@@ -73,36 +90,33 @@ extension ViewController: NSOutlineViewDataSource {
 // MARK: - <#NSOutlineViewDelegate#>
 extension ViewController: NSOutlineViewDelegate {
     func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {
-//        let view = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "KeyCell"), owner: self) as? NSTableCellView
-//        let valueView = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "ValueCell"), owner: self) as? NSTableCellView
-        print("view for element : \(String(describing: item))")
         var view: NSTableCellView?
         if item is Element {
-            if (tableColumn?.identifier)!.rawValue == "KeyColumn" {
-                view = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "KeyCell"), owner: self) as? NSTableCellView
+            if (tableColumn?.identifier)!.rawValue == KeyCol {
+                view = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: KeyCell), owner: self) as? NSTableCellView
                 let keyTextField = view?.textField
                 keyTextField?.stringValue = (item as! Element).key
                 keyTextField?.sizeToFit()
-            } else if (tableColumn?.identifier)!.rawValue == "ValueColumn" {
-                view = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "ValueCell"), owner: self) as? NSTableCellView
+            } else if (tableColumn?.identifier)!.rawValue == ValueCol {
+                view = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: ValueCell), owner: self) as? NSTableCellView
                 let valueTextField = view?.textField
-                valueTextField?.stringValue = (item as! Element).getModel()
+                let element = (item as! Element)
+                valueTextField?.stringValue = element.getModel()
                 valueTextField?.sizeToFit()
             }
-//            if tableColumn?.identifier == "KeyColumn" {
-//                view = outlineView.make(withIdentifier: "KeyCell", owner: self) as? NSTableCellView
-//                let keyTextField = view?.textField
-//                keyTextField?.stringValue = (item as! Element).key
-//                keyTextField?.sizeToFit()
-//            } else if tableColumn?.identifier == "ValueColumn" {
-//                view = outlineView.make(withIdentifier: "ValueCell", owner: self) as? NSTableCellView
-//                let valueTextField = valueView?.textField
-//                valueTextField?.stringValue = (item as! Element).getModel()
-//                valueTextField?.sizeToFit()
-//            }
             return view
         }
         return nil
+    }
+}
+
+
+// MARK: - work with item and element
+extension ViewController {  // handle with item and element
+    private func prepareItemAndElement(item: Item) {
+        print("prepareItemAndElement item : \(item.string)")
+        currentItem = item
+        currentElement =  currentItem?.elementList[0]
     }
 }
 

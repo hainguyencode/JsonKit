@@ -17,9 +17,7 @@ enum JsonDataType {
     case null
     
     var name: String {
-        get {
-            return String(describing: self)
-        }
+        return String(describing: self)
     }
     
     static func getJsonType(value: Any?) -> JsonDataType {
@@ -71,11 +69,28 @@ extension String {
         return nil
     }
     
+    func toArray() -> Array<Any>! {
+        let json = try? JSONSerialization.jsonObject(with: self.data(using: .utf8)!, options: [])
+        if json is Array<Any> {
+            return json as! Array<Any>
+        }
+        return nil
+    }
+    
     func toItem() -> Item! {
         guard let dict = self.toDict() else {
-            return nil
+            guard let array = self.toArray() else {
+                return nil
+            }
+            return array.toItem()
         }
         return dict.toItem()
+    }
+}
+
+extension Array {
+    func toItem() -> Item {
+        return Item(json: self)
     }
 }
 

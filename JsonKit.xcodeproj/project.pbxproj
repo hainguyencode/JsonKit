@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		C20068C81FC1306200A60A47 /* DataTypeUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20068C71FC1306200A60A47 /* DataTypeUtils.swift */; };
 		C20068CB1FC13B2200A60A47 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20068CA1FC13B2200A60A47 /* Item.swift */; };
+		C2090C651FCAA4960095C5CC /* Const.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2090C641FCAA4960095C5CC /* Const.swift */; };
 		C22656E91FC1158F0046CC7D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22656E81FC1158F0046CC7D /* AppDelegate.swift */; };
 		C22656EB1FC1158F0046CC7D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22656EA1FC1158F0046CC7D /* ViewController.swift */; };
 		C22656ED1FC1158F0046CC7D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C22656EC1FC1158F0046CC7D /* Assets.xcassets */; };
@@ -39,6 +40,7 @@
 /* Begin PBXFileReference section */
 		C20068C71FC1306200A60A47 /* DataTypeUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTypeUtils.swift; sourceTree = "<group>"; };
 		C20068CA1FC13B2200A60A47 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		C2090C641FCAA4960095C5CC /* Const.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Const.swift; sourceTree = "<group>"; };
 		C22656E51FC1158F0046CC7D /* JsonKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JsonKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C22656E81FC1158F0046CC7D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C22656EA1FC1158F0046CC7D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 				C22656EE1FC1158F0046CC7D /* Main.storyboard */,
 				C22656F11FC1158F0046CC7D /* Info.plist */,
 				C22656F21FC1158F0046CC7D /* JsonKit.entitlements */,
+				C2090C641FCAA4960095C5CC /* Const.swift */,
 			);
 			path = JsonKit;
 			sourceTree = "<group>";
@@ -299,6 +302,7 @@
 				C22656EB1FC1158F0046CC7D /* ViewController.swift in Sources */,
 				C20068C81FC1306200A60A47 /* DataTypeUtils.swift in Sources */,
 				C22656E91FC1158F0046CC7D /* AppDelegate.swift in Sources */,
+				C2090C651FCAA4960095C5CC /* Const.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
